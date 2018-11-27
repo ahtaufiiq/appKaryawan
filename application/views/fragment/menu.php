@@ -11,6 +11,9 @@
         <a class="nav-link" href="<?= base_url('/divisi')?>">Divisi</a>
       </li>
       <li class="nav-item">
+        <a class="nav-link" href="<?= base_url('/login')?>">Login</a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link" href="<?= base_url('/divisi/tambah')?>">Tambah</a>
       </li>
       <li class="nav-item">
