@@ -4,11 +4,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 require APPPATH . 'libraries/REST_Controller.php';
 
 //2. Extends Rest Controller
-class Api extends REST_Controller{
+class Divisi extends REST_Controller{
 
 
     function __construct($config ='rest'){
         parent::__construct($config);
+        $tes=$this->load->model('divisi_model', 'divisi');
+
     }
 
     //Buat function get atau post
@@ -17,11 +19,8 @@ class Api extends REST_Controller{
     //
     //jadi localhost/appkaryawan/api/index
     function index_get(){
-        $info =[
-            'version' => '0.1-dev',
-            'name'=>'API sim SDM'
-        ];
-        $this->response($info);
+        $data=$this->divisi->find_all();
+        $this->response($data);
     }
 
 }
