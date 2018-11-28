@@ -46,4 +46,21 @@ class Divisi extends REST_Controller{
 
     }
 
+    function insert_post(){
+                // field kesalahan
+                $this->form_validation->set_rules('kode', 'Kode Divisi', 'required');
+                $this->form_validation->set_rules('nama', 'Nama Divisi', 'required');
+        
+                if($this->form_validation->run() == FALSE)
+                {
+                    $this->response(validation_errors(),REST_Controller::HTTP_BAD_REQUEST);
+                }else{
+                    $data = [
+                        'kode' => $this->input->post('kode'),
+                        'nama' => $this->input->post('nama')
+                    ];
+                    $result=$this->divisi->insert($data);
+                    $this->response($result);
+                }
+    }
 }
