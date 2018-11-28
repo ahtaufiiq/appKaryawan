@@ -6,7 +6,8 @@ class Karyawan extends CI_Controller {
         parent::__construct();
         $this->load->model('divisi_model', 'divisi');
         $this->load->model('karyawan_model', 'karyawan');
-
+        $this->load->model('nota_model', 'nota');
+        $this->load->model('notadetail_model', 'detail');
         //Apakah sudah Login
         if(!$this->ion_auth->logged_in()){
             redirect(base_url('login'));
@@ -169,4 +170,51 @@ class Karyawan extends CI_Controller {
         }
         redirect(base_url('karyawan'));
     }
+    //menampilkan view surat
+    public function surat()
+    {
+        $data['records'] = $this->karyawan->find_all();
+        $this->load->view('karyawan/surat', $data);
+    }
+
+    //
+    public function surat_save()
+    {
+        $nota = array(
+            'nomor' => $this->input->post('nomor'),
+            'tanggal' => date('Y-m-d')
+        );
+        $this->db->trans_begin();
+        $notaid = $this->nota->insert($nota);
+        $total = 0;
+
+        for ($i = 0; $i < count($_POST['karyawan']); $i++) {
+            $karyawanid = $_POST['karyawan'][$i];
+            $biaya = $_POST['biaya'][$i];
+            $qty = $_POST['qty'][$i];
+            $subtotal = $_POST['subtotal'][$i];
+            $detail = array(
+                'idnota' => $notaid,
+                'karyawanid' => $karyawanid,
+                'biaya' => $biaya,
+                'qty' => $qty,
+                'subtotal' => $subtotal
+            );
+            $total += $subtotal;
+            $this->detail->insert($detail);
+        }
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+        } else {
+            $this->db->trans_commit();
+        }
+
+        //menampilkan nota
+        $data['nomor'] = $this->input->post('nomor');
+        $data['tanggal'] = date('Y-m-d');
+        $data['post'] = $_POST;
+        $data['total'] = $total;
+        $this->load->view("karyawan/nota", $data);
+    }
+
 }

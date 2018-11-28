@@ -1,11 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
+    <title>SIM SDM</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Karyawan</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="<?= BASE_ASSETS ?>/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="<?= BASE_ASSETS ?>/style/style.css">
+    <link rel="stylesheet" href="<?= BASE_ASSETS ?>/bootstrap/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="<?= BASE_ASSETS ?>/bootstrap-datepicker/bootstrap-datepicker.css">
+    <script type="text/javascript" src="<?= BASE_ASSETS ?>/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="<?= BASE_ASSETS ?>/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="<?= BASE_ASSETS ?>/moment-with-langs.min.js"></script>
+    <!-- https://github.com/DASPRiD/Bootstrap-DatePicker -->
+    <script type="text/javascript" src="<?= BASE_ASSETS ?>/bootstrap-datepicker/bootstrap-datepicker.js">
+    </script>
 </head>
-<body>
+<body class="container">
+<p></p>

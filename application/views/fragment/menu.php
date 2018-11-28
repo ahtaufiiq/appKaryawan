@@ -1,44 +1,38 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNav">
-  
-    <ul class="navbar-nav">
-      
-    <?php
-  if($this->ion_auth->is_admin()){
-    $user=$this->ion_auth->user()->row();
-  ?>
-      <li class="nav-item active">
-        <a class="nav-link" href="<?= base_url()?>">Home <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="<?= base_url('/divisi')?>">Divisi</a>
-      </li>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">SimSDM</a>
+        </div>
 
-      <li class="nav-item">
-        <a class="nav-link" href="<?= base_url('/divisi/tambah')?>">Tambah</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="<?= base_url('/karyawan')?>">Karyawan</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="<?= base_url('login/logout')?>">Logout(<?= $user->first_name ?>)</a>
-      </li>
-      <?php
-  }else{
-      ?>
-          <li class="nav-item">
-        <a class="nav-link" href="<?= base_url('/login')?>">Login</a>
-      </li>
-
-      <?php
-  }
-      ?>
-    <li class="nav-item">
-        <a class="nav-link" href="<?= base_url('/welcome/cari')?>">Pencarian</a>
-      </li>
-    </ul>
-  </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <?php
+                if ($this->ion_auth->is_admin()) {
+                    $user = $this->ion_auth->user()->row();
+                    ?>
+                    <li><a href="<?= base_url('welcome/cari') ?>">Pencarian</a></li>
+                    <li><a href="<?= base_url('login') ?>">Login</a></li>
+                    <li><a href="<?= base_url('divisi') ?>">Divisi</a></li>
+                    <li><a href="<?= base_url('karyawan') ?>">Karyawan</a></li>
+                    <li><a href="<?= base_url('karyawan/surat') ?>">Surat Keluar</a></li>
+                    <li><a href="<?= base_url('login/logout') ?>">Logout (<?= $user->email ?>)</a></li>
+                    <?php
+                } else {
+                    ?>
+                    <li><a href="<?= base_url('welcome/cari') ?>">Pencarian</a></li>
+                    <li><a href="<?= base_url('login') ?>">Login</a></li>
+                    <?php
+                }
+                ?>
+            </ul>
+        </div>
+    </div>
 </nav>
