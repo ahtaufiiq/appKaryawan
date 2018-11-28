@@ -42,6 +42,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             return  $this->db->delete($this->table);
         }
 
+        public function pagination($limit,$start){
+            $this->db->limit($limit,$start);
+            $result=$this->db->get($this->table)->result_array();
+            if(count($result)>0){
+                return $result;
+            }
+            return false;
+        }
+
+        function get_total(){
+            return $this->db->count_all($this->table);
+        }
 
     }
 

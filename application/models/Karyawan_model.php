@@ -46,5 +46,17 @@ class Karyawan_model extends CI_Model {
             return false;
         }
     }
+    
+    public function pagination($limit,$start){
+        $this->db->limit($limit,$start);
+        $this->db->get($this->table)->result_array();
+        if(count($result)>0){
+            return $result;
+        }
+        return false;
+    }
 
+    function get_total(){
+        return $this->db->count_all($this->table);
+    }
 }
