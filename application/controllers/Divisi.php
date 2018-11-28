@@ -7,6 +7,15 @@ class Divisi extends CI_Controller {
     {
         parent::__construct();
         $this->load->model('divisi_model', 'divisi'); 
+
+        //Apakah sudah Login
+        if(!$this->ion_auth->logged_in()){
+            redirect(base_url('login'));
+        }
+        //halaman ini hanya untuk super admin
+        if(!$this->ion_auth->is_admin()){
+
+        }
     }
 
     public function index()

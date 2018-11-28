@@ -6,6 +6,15 @@ class Karyawan extends CI_Controller {
         parent::__construct();
         $this->load->model('divisi_model', 'divisi');
         $this->load->model('karyawan_model', 'karyawan');
+
+        //Apakah sudah Login
+        if(!$this->ion_auth->logged_in()){
+            redirect(base_url('login'));
+        }
+        //halaman ini hanya untuk super admin
+        if(!$this->ion_auth->is_admin()){
+
+        }
     }
 
     function index() {
@@ -61,7 +70,7 @@ class Karyawan extends CI_Controller {
                 'jabatan' => $this->input->post('jabatan'),
                 'jeniskelamin' => $this->input->post('jeniskelamin'),
                 'iddivisi' => $this->input->post('iddivisi'),
-                'tgl_lahir' => $this->input->post('tgllahir'),
+                'tgllahir' => $this->input->post('tgllahir'),
                 'foto'=>$file_name
             );
             $this->karyawan->insert($data);
@@ -84,58 +93,80 @@ class Karyawan extends CI_Controller {
         $this->load->view('karyawan/edit',$data);
     }
 
-    public function edit_save() {
-        $id =$this->input->post('id');
-        $this->form_validation->set_rules('nama', 'Nama', 'required');
-        $this->form_validation->set_rules('email', 'Email', 'required');
-        if ($this->form_validation->run() == FALSE) {
-            $this->load->view('karyawan/tambah');
-        } else {
-            $config= array(
-                'upload_path' => "./assets/uploads/",
-                'allowed_types' => "*",
-                'overwrite'=> TRUE,
-                'max_size'=> "2048000"
-            );
-            $file_name="";
+    public function edit_save()
+    {
+        $id = $this->input->post('id'); //dari input type hidden
+        $this->form_validation->set_rules('nama', 'Nama Karyawan', 'required');
+        $this->form_validation->set_rules('email', 'Email Karyawan', 'required|valid_email');
+        $this->form_validation->set_rules('telpon', 'Telpon Karyawan', 'required|alpha_numeric|numeric');
+        $this->form_validation->set_rules('jabatan', 'Jabatan Karyawan', 'required');
+        $this->form_validation->set_rules('jeniskelamin', 'Jenis Kelamin Karyawan', 'required');
+        $this->form_validation->set_rules('iddivisi', 'Divisi Karyawan', 'required');
+        $this->form_validation->set_rules('tgllahir', 'Tanggal Lahir Karyawan', 'required');
 
-            if($_FILES['foto']['name' !=""]){
-                $this->load->library('upload',$config);
-                if($this->upload->do_upload('foto')){
-                    $upload_data=$this->upload->data();
+        if ($this->form_validation->run() == FALSE) {
+            $jabatan = [
+                "Manager" => "Manager",
+                "Supervisor" => "Supervisor",
+                "Karyawan" => "Karyawan"
+            ];
+
+            $data['jabatan'] = $jabatan;
+            //get divisi
+            $data['divisi'] = $this->divisi->find_all();
+            $data['karyawan'] = $this->karyawan->find_by_id($id); //id dari input type hidden
+            $this->load->view('karyawan/edit', $data);
+            //disini nanti dikeluarkan untuk REST API
+        } else {
+            //upload file
+            //http://localhost/appkaryawan/user_guide/libraries/file_uploading.html
+            $config['upload_path'] = './assets/uploads/';
+            $config['allowed_types'] = '*';
+            $config['overwrite'] = TRUE;
+            $config['max_size'] = '2048000';
+
+            $file_name = "";
+
+            //cek apakah ada file yang diupload
+            if ($_FILES['foto']['name'] != "") {
+                $this->load->library('upload', $config); //load library
+                if ($this->upload->do_upload('foto')) {
+                    $upload_data = $this->upload->data();
                     $file_name = $upload_data['file_name'];
-                }else{
-                    $error= array('error' => $this->upload->display_errors());
+                    //selain bisa dpt nama file jg bisa dpt informasi lain spt file_size dll
+                    //referensi: http://localhost/appkaryawan/user_guide/libraries/file_uploading.html
+                } else {
+                    $error = array('error' => $this->upload->display_errors());
                     print_r($error);
                     exit;
                 }
-            }else{
-                $file_name=$this->input->post('foto_lama');
+            } else {
+                $file_name = $this->input->post('foto_lama');
             }
 
-            
-            $data = array(
+            $data = [
                 'nama' => $this->input->post('nama'),
                 'email' => $this->input->post('email'),
                 'telpon' => $this->input->post('telpon'),
                 'jabatan' => $this->input->post('jabatan'),
                 'jeniskelamin' => $this->input->post('jeniskelamin'),
                 'iddivisi' => $this->input->post('iddivisi'),
-                'tgl_lahir' => $this->input->post('tgllahir'),
-                'foto'=>$file_name
-            );
-            $this->karyawan->update($id,$data);
-            redirect(base_url('karyawan'));
+                'tgllahir' => $this->input->post('tgllahir'),
+                'foto' => $file_name
+            ];
+
+            //data = menampung value dari form ke data untuk input di tabel mysql
+            $this->karyawan->update($id, $data);
+            redirect(base_url('karyawan')); //redirect ke kontroller karyawan
         }
     }
 
-    public function hapus(){
+    public function hapus()
+    {
         $id = $this->uri->segment(3);
-        if($id)
-        {
+        if ($id) {
             $this->karyawan->delete($id);
         }
         redirect(base_url('karyawan'));
     }
-
 }

@@ -27,7 +27,7 @@ include APPPATH . 'views/fragment/menu.php';
             <td><?= $row['jabatan'] ?></td>
             <td><?= $row['jeniskelamin'] ?></td>
             <td><?= $row['namadivisi'] ?></td>
-            <td><?= $row['tgl_lahir'] ?></td>
+            <td><?= $row['tgllahir'] ?></td>
             <td>
             <img width="100px" height="100px" src="<?= BASE_ASSETS.'/uploads/'.$row['foto']?>">
             </td>

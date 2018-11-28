@@ -5,7 +5,7 @@ include APPPATH . 'views/fragment/menu.php';
 ?>
 <h3>Edit Karyawan</h3>
 <?php echo validation_errors(); ?>
-<form action="<?= base_url('karyawan/edit_save') ?>" method="post">
+<form enctype="multipart/form-data" action="<?= base_url('karyawan/edit_save') ?>" method="post">
     <input type="hidden" name="id" value="<?= $karyawan['id']?>">
 
     <div>
@@ -72,7 +72,7 @@ include APPPATH . 'views/fragment/menu.php';
     </div>
     <div>
         <label>Tanggal Lahir:</label>
-        <input type="date" value="<?=$karyawan['tgl_lahir']?>" name="tgllahir" required/>
+        <input type="date" value="<?=$karyawan['tgllahir']?>" name="tgllahir" required/>
     </div>
     <div>
         <label>Foto:</label>
