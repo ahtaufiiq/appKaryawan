@@ -113,7 +113,12 @@ class Divisi extends REST_Controller{
         if($id)
         {
             $result=$this->divisi->delete($id);
-        }
+            if(!$result){
+                $this->response('Tidak dapat menghapus data',500);
+            }
         $this->response($result);
+
+        }
+        $this->response('Tidak dapat menghapus data',500);
     }
 }
